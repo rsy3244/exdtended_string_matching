@@ -1,46 +1,25 @@
-\documentclass[14pt, dvipdfmx]{beamer}
-\usepackage{graphicx, xcolor}
-\usepackage{subfiles}
-\usepackage{color}
-\usepackage{tikz}
-\usetikzlibrary{calc,decorations.pathreplacing,quotes,positioning,shapes,fit,arrows,backgrounds,tikzmark}
-
-\usetheme{metropolis}
-\usefonttheme{professionalfonts}
-\setbeamercolor{alerted text}{fg=mLightBrown!90!black}
-
-\usepackage{bxdpx-beamer}
-\usepackage{minijs}
-\usepackage{latexsym}
-\usepackage[deluxe,expert]{otf}
-\renewcommand{\kanjifamilydefault}{\gtdefault}
-\setbeamersize{text margin left=.75zw, text margin right=.75zw}
-%\setbeamertemplate{frame footer}{}
-
-\usepackage{enumitem}
-\setlist[itemize]{label=\textbullet}
-
-\setbeamertemplate{section in toc}[ball unnumbered]
-\setbeamertemplate{subsection in toc}[square]
-
-\title{}
-\institute{北海道大学　情報知識ネットワーク研究室　M2}
-\author{光吉　健汰}
-
+\documentclass[12pt, dvipdfmx]{beamer}
+\input{preambles.tex}
 \begin{document}
 \maketitle
 \frame{目次}{
 	\small
 	\tableofcontents
 }
-\section{拡張文字列照合問題}
-\begin{frame}{拡張文字列照合問題}
 
-\end{frame}
+\import{chapter/}{intro}
+\section{準備}
+\import{chapter/}{prelm}
 \section{適用するアルゴリズム}
+\import{chapter/}{algorithm}
 \section{文字クラス}
+%\includestandalone{chapter/prelm}
 \section{有界なギャップ}
+%\includestandalone{chapter/prelm}
 \section{オプション文字}
+%\includestandalone{chapter/prelm}
 \section{繰り返し文字}
+%\includestandalone{chapter/prelm}
 \section{まとめ}
+%\includestandalone{chapter/prelm}
 \end{document}

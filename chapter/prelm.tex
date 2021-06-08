@@ -1,0 +1,27 @@
+%! TEX root = ../main.tex
+\documentclass[dvipdfmx,12pt,beamer]{standalone}
+\ifstandalone
+	\input{../preambles.tex}
+\fi	
+
+\begin{document}
+\begin{frame}{拡張文字列照合問題}
+	\begin{block}{拡張文字列照合問題}
+		拡張文字列でのパターン$P$が、文字列$T$の部分文字列にマッチするかを判定
+	\end{block}
+	例\\
+	$T: ACCCDFABDEEEF$\\
+	$P: AB?C\as DE\pl F$\\
+\end{frame}
+\begin{frame}
+	\begin{block}{拡張文字列（extended strings; EXT）}
+		文字集合と以下の記号で表現される文字列。\\文字列集合の部分集合を表す。
+		\begin{itemize}
+			\item 文字クラス（"$.$", "$[,]$"）
+			\item 有界な文字の繰り返し（"$x(a, b)$"）
+			\item オプション文字（"$?$"）
+			\item 文字の繰り返し（"$\pl, \as$"）
+		\end{itemize}
+	\end{block}
+\end{frame}
+\end{document}
