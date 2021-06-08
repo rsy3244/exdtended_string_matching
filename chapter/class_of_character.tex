@@ -7,12 +7,26 @@
 \begin{document}
 \begin{frame}{文字クラス}
 	\begin{block}{文字クラス}
+		
 		文字集合の部分集合を表す記号$a\mathchar`+b, a+b, a\text{+}b$
 		
 		例：$[\text{a}\mathchar`-\text{d}] = \{\text{a},\text{b},\text{c},\text{d}\}$
 	\end{block}
+	\begin{block}{文字列照合問題への適用}
+		\begin{itemize}
+			\item パターンに文字クラスが含まれる
+			\item テキストに文字クラスが含まれる
+		\end{itemize}
+	\end{block}
 \end{frame}
-\begin{frame}{文字クラス：基本アイデア}
+\begin{frame}{パターンに文字クラスが含まれる場合}
+	\begin{block}{基本アイデア}
+		\begin{itemize}
+			\item 文字クラスに含まれる文字に対応するビットマスクのビットを立てる
+		\end{itemize}
+	\end{block}
+\end{frame}
+\begin{frame}{テキストに文字クラスが含まれる場合}
 	\begin{block}{基本アイデア}	
 		\begin{itemize}
 			\item クラス中の文字のビットマスク全てのビットオアをとったビットマスクを用いる。
