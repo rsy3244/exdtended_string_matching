@@ -1,0 +1,17 @@
+%! TEX root = ../main.tex
+\documentclass[dvipdfmx,12pt,beamer]{standalone}
+\ifstandalone
+	\input{../preambles.tex}
+\fi	
+
+\begin{document}
+\begin{frame}{\ShiftAnd：基本アイデア}
+	\begin{block}{基本アイデア}	
+		\begin{itemize}
+			\item パターン$P$から$|P|$ビット長のビットマスク$B$を$|\Sigma|$個構築
+			\item テキスト$T$から1文字ずつ受け取り、\\ビットマスク$D$を以下の式で更新
+			\item $D$の最上位ビットが$1$であれば、テキストの位置を報告
+		\end{itemize}
+	\end{block}
+\end{frame}
+\end{document}

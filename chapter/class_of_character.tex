@@ -1,0 +1,22 @@
+%! TEX root = ../main.tex
+\documentclass[dvipdfmx,12pt,beamer]{standalone}
+\ifstandalone
+	\input{../preambles.tex}
+\fi	
+
+\begin{document}
+\begin{frame}{文字クラス}
+	\begin{block}{文字クラス}
+		文字集合の部分集合を表す記号$a\mathchar`+b, a+b, a\text{+}b$
+		
+		例：$[\text{a}\mathchar`-\text{d}] = \{\text{a},\text{b},\text{c},\text{d}\}$
+	\end{block}
+\end{frame}
+\begin{frame}{文字クラス：基本アイデア}
+	\begin{block}{基本アイデア}	
+		\begin{itemize}
+			\item クラス中の文字のビットマスク全てのビットオアをとったビットマスクを用いる。
+		\end{itemize}
+	\end{block}
+\end{frame}
+\end{document}

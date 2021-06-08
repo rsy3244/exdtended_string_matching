@@ -1,0 +1,20 @@
+%! TEX root = ../main.tex
+\documentclass[dvipdfmx,12pt,beamer]{standalone}
+\ifstandalone
+	\input{../preambles.tex}
+\fi	
+
+\begin{document}
+\begin{frame}{\BNDM：基本アイデア}
+	\begin{block}{基本アイデア}	
+		\begin{itemize}
+			\item 1文字毎の照合は$\ShiftAnd$と同様。
+			\item テキスト$T$上でサイズ$|P|$の窓をずらして照合していく。
+				\begin{itemize}
+					\item	窓では、逆順に照合していく。
+					\item 窓をずらすときに、一致しない箇所を飛ばす。
+				\end{itemize}
+		\end{itemize}
+	\end{block}
+\end{frame}
+\end{document}
