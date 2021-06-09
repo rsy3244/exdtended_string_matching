@@ -57,7 +57,12 @@
 		\end{itemize}
 	\end{block}
 	\vspace{-1em}
-	例 $T = \text{AGATACGATATATAC}$、$P = \text{GATAT}$ \scalebox{.40}{
+	例 $T = \text{\only<1,8->{A}\only<2-7>{\colorbox{mLightBrown!20}{
+		\alert<7>{A}\alert<6>{G}\alert<5>{A}\alert<4>{T}\alert<3>{A}
+}}\only<8-9>{\colorbox{mLightBrown!20}{
+GATA\alert<9>{C}
+}}\only<10->{GATA}\only<1-7,10->{C}\only<10-15>{\colorbox{mLightBrown!20}{
+\alert<15>{G}\alert<14>{A}\alert<13>{T}\alert<12>{A}\alert<11>{T}}}\only<1-9>{GATAT}ATAC}$、$P = \text{GATAT}$ \scalebox{.40}{
 	\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=.7cm]
 		\node(init) [state] at (0,0) {$I$};
 		\node(s0) [state, below right=of init] {$0$};
@@ -85,22 +90,22 @@
 			\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
 				\node(A0) [rectangle, draw] at (0,0) {$0$};
 				\node(A) [left =of A0] {$B[A]$};
-				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1} {
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0,1,0} {
 					\node(A\i) [rectangle, draw, right =of A\prev] {$\x$};
 				}
-				\node(C0) [rectangle, draw] at (0,-.6) {$1$};
+				\node(C0) [rectangle, draw] at (0,-.6) {$0$};
 				\node(C) [left =of C0] {$B[C]$};
-				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0} {
 					\node(C\i) [rectangle, draw, right =of C\prev] {$\x$};
 				}
-				\node(G0) [rectangle, draw] at (0,-1.2) {$0$};
+				\node(G0) [rectangle, draw] at (0,-1.2) {$1$};
 				\node(G) [left =of G0] {$B[G]$};
-				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0} {
 					\node(G\i) [rectangle, draw, right =of G\prev] {$\x$};
 				}
 				\node(T0) [rectangle, draw] at (0,-1.8) {$0$};
 				\node(T) [left =of T0] {$B[T]$};
-				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1,0,1} {
 					\node(T\i) [rectangle, draw, right =of T\prev] {$\x$};
 				}
 			\end{tikzpicture}
