@@ -8,13 +8,144 @@
 \begin{frame}{\BNDM：基本アイデア}
 	\begin{block}{基本アイデア}	
 		\begin{itemize}
-			\item 1文字毎の照合は$\ShiftAnd$と同様。
 			\item テキスト$T$上でサイズ$|P|$の窓をずらして照合していく。
+			\item 窓内部では\alert{逆順}に文字を読み込み照合する。
+			\item 1文字毎の照合は$\ShiftAnd$と同様。
+			\item 窓をずらすときに、一致しない箇所を飛ばす。
 				\begin{itemize}
-					\item	窓では、逆順に照合していく。
-					\item 窓をずらすときに、一致しない箇所を飛ばす。
+					\item パターンを逆順にした場合の接尾辞を持つことで、\\接尾辞と照合した箇所まで飛ばすことができる。
+					\item 接尾辞集合をNFAで持つ。
 				\end{itemize}
 		\end{itemize}
 	\end{block}
+
+	例 $P = \text{GATAT}$
+
+	\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=.7cm]
+		\node(init) [state] at (0,0) {$I$};
+		\node(s0) [state, below right=of init] {$0$};
+		\node(s1) [state, right=of s0] {$1$};
+		\node(s2) [state, right=of s1] {$2$};
+		\node(s3) [state, right=of s2] {$3$};
+		\node(s4) [state, right=of s3] {$4$};
+		\node(s5) [state, double, double distance=.8mm, right=of s4] {$5$};
+		\draw[->] (s0) to node[midway, above] {$T$} (s1);
+		\draw[->] (s1) to node[midway, above] {$A$} (s2);
+		\draw[->] (s2) to node[midway, above] {$T$} (s3);
+		\draw[->] (s3) to node[midway, above] {$A$} (s4);
+		\draw[->] (s4) to node[midway, above] {$G$} (s5);
+		\draw[dashed, ->] (init) -| node[midway, right, pos=0.80] {$\epsilon$} (s0);
+		\draw[dashed, ->] (init) -| node[midway, right, pos=0.80] {$\epsilon$} (s1);
+		\draw[dashed, ->] (init) -| node[midway, right, pos=0.80] {$\epsilon$} (s2);
+		\draw[dashed, ->] (init) -| node[midway, right, pos=0.80] {$\epsilon$} (s3);
+		\draw[dashed, ->] (init) -| node[midway, right, pos=0.80] {$\epsilon$} (s4);
+		\draw[dashed, ->] (init) -| node[midway, right, pos=0.80] {$\epsilon$} (s5);
+	\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{\BNDM：アルゴリズム}
+	\begin{block}{アルゴリズム}	
+		\begin{itemize}
+			\item NFAの状態集合をビット列で持つ。
+			\item 初めにビット列$D$をすべて$1$で初期化する。
+			\item 窓の逆順で$1$文字ずつ受け取り、$D\leftarrow D\& B[T_i]$で更新。
+			\item 終了状態が$1$のとき、
+				\begin{itemize}
+					\item 窓を走査し終えていなければ、窓の移動する箇所として保存。
+					\item 走査し終えていれば、パターンの出現位置として報告。
+				\end{itemize}
+		\end{itemize}
+	\end{block}
+	\vspace{-1em}
+	例 $T = \text{AGATACGATATATAC}$、$P = \text{GATAT}$ \scalebox{.40}{
+	\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=.7cm]
+		\node(init) [state] at (0,0) {$I$};
+		\node(s0) [state, below right=of init] {$0$};
+		\node(s1) [state, right=of s0] {$1$};
+		\node(s2) [state, right=of s1] {$2$};
+		\node(s3) [state, right=of s2] {$3$};
+		\node(s4) [state, right=of s3] {$4$};
+		\node(s5) [state, double, double distance=.8mm, right=of s4] {$5$};
+		\draw[->] (s0) to node[midway, above] {$T$} (s1);
+		\draw[->] (s1) to node[midway, above] {$A$} (s2);
+		\draw[->] (s2) to node[midway, above] {$T$} (s3);
+		\draw[->] (s3) to node[midway, above] {$A$} (s4);
+		\draw[->] (s4) to node[midway, above] {$G$} (s5);
+		\draw[dashed, ->] (init) -| node[midway, right, pos=0.80] {$\epsilon$} (s0);
+		\draw[dashed, ->] (init) -| node[midway, right, pos=0.80] {$\epsilon$} (s1);
+		\draw[dashed, ->] (init) -| node[midway, right, pos=0.80] {$\epsilon$} (s2);
+		\draw[dashed, ->] (init) -| node[midway, right, pos=0.80] {$\epsilon$} (s3);
+		\draw[dashed, ->] (init) -| node[midway, right, pos=0.80] {$\epsilon$} (s4);
+		\draw[dashed, ->] (init) -| node[midway, right, pos=0.80] {$\epsilon$} (s5);
+	\end{tikzpicture}
+	}
+
+	\begin{columns}
+		\begin{column}{.25\textwidth}
+			\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
+				\node(A0) [rectangle, draw] at (0,0) {$0$};
+				\node(A) [left =of A0] {$B[A]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1} {
+					\node(A\i) [rectangle, draw, right =of A\prev] {$\x$};
+				}
+				\node(C0) [rectangle, draw] at (0,-.6) {$1$};
+				\node(C) [left =of C0] {$B[C]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+					\node(C\i) [rectangle, draw, right =of C\prev] {$\x$};
+				}
+				\node(G0) [rectangle, draw] at (0,-1.2) {$0$};
+				\node(G) [left =of G0] {$B[G]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+					\node(G\i) [rectangle, draw, right =of G\prev] {$\x$};
+				}
+				\node(T0) [rectangle, draw] at (0,-1.8) {$0$};
+				\node(T) [left =of T0] {$B[T]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+					\node(T\i) [rectangle, draw, right =of T\prev] {$\x$};
+				}
+			\end{tikzpicture}
+		\end{column}
+		\begin{column}{.66\textwidth}
+
+			\only<2>{
+				\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
+					\node(d0) [rectangle, draw] at (0,0) {$0$};
+					\node(d) [left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+					\node(dp0) [rectangle, draw] at (0,-1.4) {$0$};
+					\node(dp) [left =of dp0] {$((D << 1 ) | 1)$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+
+					\draw[->] (d1) to (dp1);
+
+					\node(d0) [rectangle, draw] at (3,0) {$0$};
+					\node(d) [left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+
+					\draw[->] (dp2) [bend left]  to (d);
+
+					\node(chr0) [rectangle, draw] at (3,-.7) {$1$};
+					\node(chr) [left =of chr0] {$\& B[a]$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0} {
+						\node(chr\i ) [rectangle, draw, right =of chr\prev ] {$\x$};
+					}
+
+					\node(dp0) [rectangle, draw] at (3,-1.4) {$0$};
+					\node(dp) [left =of dp0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+				\end{tikzpicture}
+			}
+
+		\end{column}
+	\end{columns}
+
 \end{frame}
 \end{document}

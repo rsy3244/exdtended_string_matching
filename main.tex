@@ -2,24 +2,25 @@
 \input{preambles.tex}
 \begin{document}
 \maketitle
-\frame{目次}{
-	\small
+\begin{frame}{目次}
 	\tableofcontents
-}
+\end{frame}
 
 \import{chapter/}{intro}
 \section{準備}
 \import{chapter/}{prelm}
 \section{適用するアルゴリズム}
 \import{chapter/}{algorithm}
+\import{chapter/}{shift-and}
+\import{chapter/}{bndm}
 \section{文字クラス}
-\includestandalone{chapter/class_of_character}
+\import{chapter/}{class_of_character}
 \section{有界なギャップ}
-%\includestandalone{chapter/bounded_gaps}
+\import{chapter/}{bounded_gaps}
 \section{オプション文字}
-%\includestandalone{chapter/prelm}
+%\import{chapter/}{prelm}
 \section{繰り返し文字}
-%\includestandalone{chapter/prelm}
+%\import{chapter/}{prelm}
 \section{まとめ}
-%\includestandalone{chapter/prelm}
+%\import{chapter/}{prelm}
 \end{document}

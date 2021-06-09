@@ -5,23 +5,44 @@
 \fi	
 
 \begin{document}
-\begin{frame}{拡張文字列照合問題}
-	\begin{block}{拡張文字列照合問題}
-		拡張文字列でのパターン$P$が、文字列$T$の部分文字列にマッチするかを判定
+%\begin{frame}{諸定義}
+%	\begin{description}
+%		\item[ワードマシンモデル] $1W$
+%	\end{description}
+%\end{frame}
+
+\begin{frame}{有限オートマトン}
+	\begin{block}{非決定性有限オートマトン（Nondeterministic Finite Automaton; NFA）}
+		以下の要素からなる有限オートマトンの一種
+		\begin{columns}
+			\begin{column}{.49\textwidth}
+				\begin{itemize}
+					\item 状態集合$Q$
+					\item 入力アルファベット$\Sigma$
+					\item 遷移関数$\delta : (\Sigma \cup \epsilon) \rightarrow 2^Q$
+					\item 開始状態 $S \subset Q$
+					\item 受理状態 $T \subset Q$
+				\end{itemize}
+			\end{column}
+			\begin{column}{.5\textwidth}
+				\begin{tikzpicture}[state/.style={circle, draw, minimum size=.5cm}, node distance=.5cm]
+					\node(a0)[state] at (0,0) {$0$};
+					\node(a1)[state, right =of a0] {$1$};
+					\node(a2)[state, right =of a1] {$2$};
+					\node(a3)[state, double, double distance=.8mm, right =of a2] {$3$};
+
+					\draw[->] (-.5, .5) to (a0);
+					\draw[->] (a0) to node[midway, above] {$a$} (a1);
+					\draw[->] (a1) to node[midway, above] {$b$} (a2);
+					\draw[->] (a2) to node[midway, above] {$c$} (a3);
+					\draw[->] (a1) to [out=60, in=120, looseness=1] node[midway, above] {$d$} (a3);
+				\end{tikzpicture}
+			\end{column}
+		\end{columns}
 	\end{block}
-	例\\
-	$T: ACCCDFABDEEEF$\\
-	$P: AB?C\as DE\pl F$\\
-\end{frame}
-\begin{frame}
-	\begin{block}{拡張文字列（extended strings; EXT）}
-		文字集合と以下の記号で表現される文字列。\\文字列集合の部分集合を表す。
-		\begin{itemize}
-			\item 文字クラス（"$.$", "$[,]$"）
-			\item 有界な文字の繰り返し（"$x(a, b)$"）
-			\item オプション文字（"$?$"）
-			\item 文字の繰り返し（"$\pl, \as$"）
-		\end{itemize}
-	\end{block}
+
+	\begin{itemize}
+		\item 文字列を受け取ることで、 受理できるかを判定することができる。
+	\end{itemize}
 \end{frame}
 \end{document}

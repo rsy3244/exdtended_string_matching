@@ -5,13 +5,268 @@
 \fi	
 
 \begin{document}
-\begin{frame}{\ShiftAnd：基本アイデア}
-	\begin{block}{基本アイデア}	
+\begin{frame}{\ShiftAnd：アルゴリズム}
+	\begin{block}{アルゴリズム}	
 		\begin{itemize}
-			\item パターン$P$から$|P|$ビット長のビットマスク$B$を$|\Sigma|$個構築
+			\item パターンに対応したNFAの遷移の模倣を、\\ビット並列によって行う。
+			\item パターン$P$から$|P-1|$ビット長のビットマスク$B$を$|\Sigma|$個構築
 			\item テキスト$T$から1文字ずつ受け取り、\\ビットマスク$D$を以下の式で更新
+				\vspace{-1em}
+				\begin{equation*}
+					D \leftarrow ((D << 1) | 1) \& B[T_i]
+				\end{equation*}
+				\vspace{-3em}
 			\item $D$の最上位ビットが$1$であれば、テキストの位置を報告
 		\end{itemize}
 	\end{block}
+	
+	例 $T = \text{\alert<2>{a}\alert<3>{b}\alert<4>{c}\alert<5>{b}\alert<6>{a}\alert<7->{a}}$、 $P = \text{baa}$
+	\begin{columns}
+		\begin{column}{.25\textwidth}
+			\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
+				\node(chr0) [rectangle, draw] at (0,0) {$0$};
+				\node(chr) [left =of chr0] {$B[a]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1} {
+					\node(chr\i) [rectangle, draw, right =of chr\prev] {$\x$};
+				}
+				\node(chr0a) [rectangle, draw] at (0,-.7) {$1$};
+				\node(chra) [left =of chr0a] {$B[b]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+					\node(chr\i a) [rectangle, draw, right =of chr\prev a] {$\x$};
+				}
+				\node(chr0b) [rectangle, draw] at (0,-1.4) {$0$};
+				\node(chrb) [left =of chr0b] {$B[c]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+					\node(chr\i b) [rectangle, draw, right =of chr\prev b] {$\x$};
+				}
+			\end{tikzpicture}
+		\end{column}
+		\begin{column}{.66\textwidth}
+
+			\only<2>{
+				\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
+					\node(d0) [rectangle, draw] at (0,0) {$0$};
+					\node(d) [left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+					\node(dp0) [rectangle, draw] at (0,-1.4) {$0$};
+					\node(dp) [left =of dp0] {$((D << 1 ) | 1)$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+
+					\draw[->] (d1) to (dp1);
+
+					\node(d0) [rectangle, draw] at (3,0) {$0$};
+					\node(d) [left =of d0] {};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+
+					\draw[->] (dp2) [bend left]  to (d);
+
+					\node(chr0) [rectangle, draw] at (3,-.7) {$1$};
+					\node(chr) [left =of chr0] {$\& B[a]$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0} {
+						\node(chr\i ) [rectangle, draw, right =of chr\prev ] {$\x$};
+					}
+
+					\node(dp0) [rectangle, draw] at (3,-1.4) {$0$};
+					\node(dp) [left =of dp0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+				\end{tikzpicture}
+			}
+
+			\only<3>{
+				\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
+					\node(d0) [rectangle, draw] at (0,0) {$0$};
+					\node(d) [left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+					\node(dp0) [rectangle, draw] at (0,-1.4) {$0$};
+					\node(dp) [left =of dp0] {$((D << 1 ) | 1)$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+
+					\draw[->] (d1) to (dp1);
+
+					\node(d0) [rectangle, draw] at (3,0) {$0$};
+					\node(d) [left =of d0] {};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+
+					\draw[->] (dp2) [bend left]  to (d);
+
+					\node(chr0) [rectangle, draw] at (3,-.7) {$0$};
+					\node(chr) [left =of chr0] {$\& B[b]$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
+						\node(chr\i ) [rectangle, draw, right =of chr\prev ] {$\x$};
+					}
+
+					\node(dp0) [rectangle, draw] at (3,-1.4) {$0$};
+					\node(dp) [left =of dp0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+				\end{tikzpicture}
+			}
+
+			\only<4>{
+				\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
+					\node(d0) [rectangle, draw] at (0,0) {$0$};
+					\node(d) [left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+					\node(dp0) [rectangle, draw] at (0,-1.4) {$0$};
+					\node(dp) [left =of dp0] {$((D << 1 ) | 1)$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+
+					\draw[->] (d1) to (dp1);
+
+					\node(d0) [rectangle, draw] at (3,0) {$0$};
+					\node(d) [left =of d0] {};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+
+					\draw[->] (dp2) [bend left]  to (d);
+
+					\node(chr0) [rectangle, draw] at (3,-.7) {$0$};
+					\node(chr) [left =of chr0] {$\& B[c]$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+						\node(chr\i ) [rectangle, draw, right =of chr\prev ] {$\x$};
+					}
+
+					\node(dp0) [rectangle, draw] at (3,-1.4) {$0$};
+					\node(dp) [left =of dp0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+				\end{tikzpicture}
+			}
+
+			\only<5>{
+				\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
+					\node(d0) [rectangle, draw] at (0,0) {$0$};
+					\node(d) [left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+					\node(dp0) [rectangle, draw] at (0,-1.4) {$0$};
+					\node(dp) [left =of dp0] {$((D << 1 ) | 1)$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+
+					\draw[->] (d1) to (dp1);
+
+					\node(d0) [rectangle, draw] at (3,0) {$0$};
+					\node(d) [left =of d0] {};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+
+					\draw[->] (dp2) [bend left]  to (d);
+
+					\node(chr0) [rectangle, draw] at (3,-.7) {$0$};
+					\node(chr) [left =of chr0] {$\& B[b]$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
+						\node(chr\i ) [rectangle, draw, right =of chr\prev ] {$\x$};
+					}
+
+					\node(dp0) [rectangle, draw] at (3,-1.4) {$0$};
+					\node(dp) [left =of dp0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+				\end{tikzpicture}
+			}
+
+			\only<6>{
+				\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
+					\node(d0) [rectangle, draw] at (0,0) {$0$};
+					\node(d) [left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+					\node(dp0) [rectangle, draw] at (0,-1.4) {$0$};
+					\node(dp) [left =of dp0] {$((D << 1 ) | 1)$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+
+					\draw[->] (d1) to (dp1);
+
+					\node(d0) [rectangle, draw] at (3,0) {$0$};
+					\node(d) [left =of d0] {};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+
+					\draw[->] (dp2) [bend left]  to (d);
+
+					\node(chr0) [rectangle, draw] at (3,-.7) {$1$};
+					\node(chr) [left =of chr0] {$\& B[a]$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0} {
+						\node(chr\i ) [rectangle, draw, right =of chr\prev ] {$\x$};
+					}
+
+					\node(dp0) [rectangle, draw] at (3,-1.4) {$0$};
+					\node(dp) [left =of dp0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+				\end{tikzpicture}
+			}
+
+			\only<7->{
+				\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
+					\node(d0) [rectangle, draw] at (0,0) {$0$};
+					\node(d) [left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+					\node(dp0) [rectangle, draw] at (0,-1.4) {$1$};
+					\node(dp) [left =of dp0] {$((D << 1 ) | 1)$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+
+					\draw[->] (d1) to (dp1);
+
+					\node(d0) [rectangle, draw] at (3,0) {$1$};
+					\node(d) [left =of d0] {};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+
+					\draw[->] (dp2) [bend left]  to (d);
+
+					\node(chr0) [rectangle, draw] at (3,-.7) {$1$};
+					\node(chr) [left =of chr0] {$\& B[a]$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0} {
+						\node(chr\i ) [rectangle, draw, right =of chr\prev ] {$\x$};
+					}
+
+					\node(dp0) [rectangle, draw] at (3,-1.4) {$\alert<8>{1}$};
+					\node(dp) [left =of dp0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+				\end{tikzpicture}
+			}
+
+		\end{column}
+
+	\end{columns}
 \end{frame}
 \end{document}

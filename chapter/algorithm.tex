@@ -5,11 +5,57 @@
 \fi	
 
 \begin{document}
-\begin{frame}{紹介するアルゴリズム}
-	文字列照合で利用される以下のアルゴリズムを拡張文字列に対応させる。
+\begin{frame}{目的}
+	以下の文字列照合アルゴリズムを拡張文字列に対応させる。
 	\begin{itemize}
 		\item \ShiftAnd
 		\item \BNDM
 	\end{itemize}
+
+	これらのアルゴリズムは\alert{ビット並列}アルゴリズムである。
+\end{frame}
+
+\begin{frame}{ビット並列テクニック}
+	\begin{block}{ビット並列テクニック}
+		\alert{ワードマシンモデル}において、ビット演算の並列処理を利用して、処理の高速化を計るテクニック。
+	\end{block}
+
+	\begin{block}{ワードマシンモデル}
+		$W$ビットのビット演算について、定数時間で計算可能であるような計算機モデル。
+	\end{block}
+
+	例 $A = (6, 1, 5, 2), B = (2, 4, 5, 0)$のとき、 $A+B$の計算
+
+	\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
+		\node(chr0) [rectangle, draw] at (0,0) {$0$};
+		\node(chr) [left =of chr0] {$A$};
+		\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1,0,0,0,0,1,0,1,0,1,0,0,1,0} {
+			\node(chr\i) [rectangle, draw, right =of chr\prev] {$\x$};
+		}
+		\node [inner sep=0, rectangle, very thick, draw, fit=(chr0)(chr3)] {};
+		\node [inner sep=0, rectangle, very thick, draw, fit=(chr4)(chr7)] {};
+		\node [inner sep=0, rectangle, very thick, draw, fit=(chr8)(chr11)] {};
+		\node [inner sep=0, rectangle, very thick, draw, fit=(chr12)(chr15)] {};
+		\node(chr0a) [rectangle, draw] at (0,-.7) {$0$};
+		\node(chra) [left =of chr0a] {$B$};
+		\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1,0,0,1,0,0,0,1,0,1,0,0,0,0} {
+			\node(chr\i a) [rectangle, draw, right =of chr\prev a] {$\x$};
+		}
+		\node [inner sep=0, rectangle, very thick, draw, fit=(chr0a)(chr3a)] {};
+		\node [inner sep=0, rectangle, very thick, draw, fit=(chr4a)(chr7a)] {};
+		\node [inner sep=0, rectangle, very thick, draw, fit=(chr8a)(chr11a)] {};
+		\node [inner sep=0, rectangle, very thick, draw, fit=(chr12a)(chr15a)] {};
+		\node(ops) [left =of chra] {$+$};
+		\node(chr0s) [rectangle, draw] at (0,-1.4) {$1$};
+		\node(chrs) [left =of chr0s] {$A+B$};
+		\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0,1,0,1,1,0,1,0,0,0,1,0} {
+			\node(chr\i s) [rectangle, draw, right =of chr\prev s] {$\x$};
+		}
+		\node [inner sep=0, rectangle, very thick, draw, fit=(chr0s)(chr3s)] {};
+		\node [inner sep=0, rectangle, very thick, draw, fit=(chr4s)(chr7s)] {};
+		\node [inner sep=0, rectangle, very thick, draw, fit=(chr8s)(chr11s)] {};
+		\node [inner sep=0, rectangle, very thick, draw, fit=(chr12s)(chr15s)] {};
+	\end{tikzpicture}
+
 \end{frame}
 \end{document}
