@@ -1,0 +1,37 @@
+%! TEX root = ../main.tex
+\documentclass[dvipdfmx,12pt,beamer]{standalone}
+\ifstandalone
+	\input{../preambles.tex}
+\fi	
+
+\begin{document}
+\begin{frame}{\ShiftAnd：最終的なアルゴリズム}
+	\begin{block}{アルゴリズム}	
+		一文字ずつ読み込む毎に以下の処理を行う。
+		\begin{align*}
+			D &\leftarrow ((D << 1) | 1) \& B[T_i] | D \& S[T_i])\\
+			Df &\leftarrow D | F \\
+			D &\leftarrow D | (A \& ((\sim (Df - I)) \land Df))
+		\end{align*}
+	\end{block}
+
+	時間計算量は、$\mathcal{O}{(|T|	\lceil\frac{|P|}{W}\rceil)}$である。
+
+\end{frame}
+
+\begin{frame}{\BNDM：最終的なアルゴリズム}
+	\begin{block}{アルゴリズム}	
+		一文字ずつ読み込む毎に以下の処理を行う。
+		\begin{align*}
+			Df &\leftarrow D | F \\
+			D &\leftarrow D | (A \& ((\sim (Df - I)) \land Df))
+			D &\leftarrow ((D << 1) | 1) \& B[T_i] | D \& S[T_i])\\
+		\end{align*}
+	\end{block}
+
+	ただし、テキスト中のパターンが窓の区間を超える場合があるので、\\
+	窓を走査し終えて受理状態が$1$の場合は、その位置にパターンがあるかを確認する必要がある。
+	このため、最悪時間計算量は$\mathcal{O}{(n^2)}$となる。
+
+\end{frame}
+\end{document}
