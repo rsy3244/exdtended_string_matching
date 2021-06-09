@@ -1,0 +1,28 @@
+%! TEX root = ../main.tex
+\documentclass[dvipdfmx,12pt,beamer]{standalone}
+\ifstandalone
+	\input{../preambles.tex}
+\fi	
+
+\begin{document}
+\begin{frame}{目的}
+	以下のアルゴリズムを拡張文字列照合に適用する。
+	\begin{itemize}
+		\item \ShiftAnd
+		\item \BNDM
+	\end{itemize}
+
+	\begin{block}{方針}
+		拡張文字列の各記号について、問題を分けて適用する。
+		\begin{itemize}
+			\item 文字クラス
+			\item 有界な文字の繰り返し
+			\item オプション文字
+			\item 文字の繰り返し
+		\end{itemize}
+	\end{block}
+
+\end{frame}
+
+\end{document}
+

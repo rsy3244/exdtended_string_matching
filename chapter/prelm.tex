@@ -10,6 +10,18 @@
 %		\item[ワードマシンモデル] $1W$
 %	\end{description}
 %\end{frame}
+\begin{frame}{定義}
+	\begin{block}{文字列に関する定義}
+		\begin{description}
+			\item[文字列] 文字集合$\Sigma$の要素からなる列。
+			\item[部分文字列] 文字列$T= T_1T_2\ldots T_n$に対して、\\$T_i\ldots T_j (1 \le i \le j \le n)$であるような文字列。
+			\item[空文字列] 0個の文字からなる文字列。
+		\end{description}
+	\end{block}
+	\begin{block}{文字列照合問題}
+		文字列$T$、$P$が与えられたとき、$P$が$T$の部分文字列であるか？
+	\end{block}
+\end{frame}
 
 \begin{frame}{有限オートマトン}
 	\begin{block}{非決定性有限オートマトン（Nondeterministic Finite Automaton; NFA）}
@@ -18,7 +30,7 @@
 			\begin{column}{.49\textwidth}
 				\begin{itemize}
 					\item 状態集合$Q$
-					\item 入力アルファベット$\Sigma$
+					\item 入力文字集合$\Sigma$
 					\item 遷移関数$\delta : (\Sigma \cup \epsilon) \rightarrow 2^Q$
 					\item 開始状態 $S \subset Q$
 					\item 受理状態 $T \subset Q$
@@ -44,5 +56,33 @@
 	\begin{itemize}
 		\item 文字列を受け取ることで、 受理できるかを判定することができる。
 	\end{itemize}
+\end{frame}
+
+\begin{frame}{拡張文字列}
+	\begin{block}{拡張文字列}
+		文字集合$\Sigma$と、以下の記号からなる文字列。\\文字列集合の部分集合を表す。
+		\begin{itemize}
+			\item クラス文字（$[\text{a},\text{b}]$）：文字の部分集合。
+			\item 有界な文字の繰り返し（$\text{x}(a, b)$）：ある文字を$a$回以上、$b$回以下繰り返して得られる文字列。
+			\item オプション文字（$x?$）：xを$0$個、または$1$個並べた文字列。
+			\item 文字の繰り返し（$x\as, x\pl$）：xを$0$個以上、または$1$個以上並べた文字列。
+		\end{itemize}
+	\end{block}
+	
+	例 $T = \text{ab}?\text{c}\as\text{de}\pl\text{f}$には、
+	adef、abcdef、abccdeeeef
+	\\などが含まれる。
+\end{frame}
+
+\begin{frame}{拡張文字列照合問題}
+	\begin{block}{拡張文字列}
+		文字列$T$と拡張文字列$P$が与えられたとき、$P$の要素となるような$T$の部分文字列が存在するか？
+	\end{block}
+
+	例 
+
+	$T = \text{acccdf\alert<2>{abdeeef}}$
+
+	$P = \text{ab}?\text{c}\as\text{de}\pl\text{f}$
 \end{frame}
 \end{document}

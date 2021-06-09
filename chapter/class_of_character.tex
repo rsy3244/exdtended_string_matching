@@ -8,11 +8,9 @@
 \begin{frame}{文字クラス}
 	\begin{block}{文字クラス}
 		
-		文字集合の部分集合を表す記号$a\mathchar`+b, a+b, a\text{+}b$
+		文字集合の部分集合を表す記号
 		
-		例
-
-		$[\text{a}\mathchar`-\text{d}] = \{\text{a},\text{b},\text{c},\text{d}\}$
+		例 $[\text{a}\mathchar`-\text{d}] = \{\text{a},\text{b},\text{c},\text{d}\}$
 	\end{block}
 	\begin{block}{文字列照合問題への適用}
 		\begin{itemize}
@@ -24,14 +22,139 @@
 
 \begin{frame}{パターンに文字クラスが含まれる場合}
 	\begin{block}{基本アイデア}
-			文字クラスに含まれる文字に対応するビットマスクのビットを立てる
+			文字クラス中の文字に対応するビットマスクのビットを立てる
 	\end{block}
-	
+	例 $P = [\text{C},\text{G}]\text{ATAT}$
+
+	\begin{columns}
+		\begin{column}{.49\textwidth}
+			\begin{itemize}
+				\item $\ShiftAnd$アルゴリズム
+			\end{itemize}
+			\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
+				\node(A0) [rectangle, draw] at (0,0) {$0$};
+				\node(A) [left =of A0] {$B[A]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0,1,0} {
+					\node(A\i) [rectangle, draw, right =of A\prev] {$\x$};
+				}
+				\node(C0) [rectangle, draw] at (0,-.6) {$0$};
+				\node(C) [left =of C0] {$B[C]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,\alert{1}} {
+					\node(C\i) [rectangle, draw, right =of C\prev] {$\x$};
+				}
+				\node(G0) [rectangle, draw] at (0,-1.2) {$0$};
+				\node(G) [left =of G0] {$B[G]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,\alert{1}} {
+					\node(G\i) [rectangle, draw, right =of G\prev] {$\x$};
+				}
+				\node(T0) [rectangle, draw] at (0,-1.8) {$1$};
+				\node(T) [left =of T0] {$B[T]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1,0,0} {
+					\node(T\i) [rectangle, draw, right =of T\prev] {$\x$};
+				}
+			\end{tikzpicture}
+		\end{column}
+		\begin{column}{.49\textwidth}
+			\begin{itemize}
+				\item $\BNDM$アルゴリズム
+			\end{itemize}
+			\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
+				\node(A0) [rectangle, draw] at (0,0) {$0$};
+				\node(A) [left =of A0] {$B[A]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0,1,0} {
+					\node(A\i) [rectangle, draw, right =of A\prev] {$\x$};
+				}
+				\node(C0) [rectangle, draw] at (0,-.6) {\alert{$1$}};
+				\node(C) [left =of C0] {$B[C]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0} {
+					\node(C\i) [rectangle, draw, right =of C\prev] {$\x$};
+				}
+				\node(G0) [rectangle, draw] at (0,-1.2) {\alert{$1$}};
+				\node(G) [left =of G0] {$B[G]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0} {
+					\node(G\i) [rectangle, draw, right =of G\prev] {$\x$};
+				}
+				\node(T0) [rectangle, draw] at (0,-1.8) {$0$};
+				\node(T) [left =of T0] {$B[T]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1,0,1} {
+					\node(T\i) [rectangle, draw, right =of T\prev] {$\x$};
+				}
+			\end{tikzpicture}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 \begin{frame}{テキストに文字クラスが含まれる場合}
 	\begin{block}{基本アイデア}	
 			クラス中の文字のビットマスク全てのビットオアをとったビットマスクを用いる。
 	\end{block}
+	\begin{columns}
+		\begin{column}{.49\textwidth}
+			\begin{itemize}
+				\item $\ShiftAnd$アルゴリズム
+			\end{itemize}
+			\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
+				\node(A0) [rectangle, draw] at (0,0) {$0$};
+				\node(A) [left =of A0] {$B[A]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0,1,0} {
+					\node(A\i) [rectangle, draw, right =of A\prev] {$\x$};
+				}
+				\node(C0) [rectangle, draw] at (0,-.6) {$0$};
+				\node(C) [left =of C0] {$B[C]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,1} {
+					\node(C\i) [rectangle, draw, right =of C\prev] {$\x$};
+				}
+				\node(G0) [rectangle, draw] at (0,-1.2) {$0$};
+				\node(G) [left =of G0] {$B[G]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,1} {
+					\node(G\i) [rectangle, draw, right =of G\prev] {$\x$};
+				}
+				\node(T0) [rectangle, draw] at (0,-1.8) {$1$};
+				\node(T) [left =of T0] {$B[T]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1,0,0} {
+					\node(T\i) [rectangle, draw, right =of T\prev] {$\x$};
+				}
+				\node(T0) [rectangle, draw] at (0,-2.4) {$1$};
+				\node(T) [left =of T0] {$B[\alert{\{A, T\}}]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {\alert{1},\alert{1},\alert{1},\alert{0}} {
+					\node(T\i) [rectangle, draw, right =of T\prev] {$\x$};
+				}
+
+			\end{tikzpicture}
+		\end{column}
+		\begin{column}{.49\textwidth}
+			\begin{itemize}
+				\item $\BNDM$アルゴリズム
+			\end{itemize}
+			\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
+				\node(A0) [rectangle, draw] at (0,0) {$0$};
+				\node(A) [left =of A0] {$B[A]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0,1,0} {
+					\node(A\i) [rectangle, draw, right =of A\prev] {$\x$};
+				}
+				\node(C0) [rectangle, draw] at (0,-.6) {$1$};
+				\node(C) [left =of C0] {$B[C]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0} {
+					\node(C\i) [rectangle, draw, right =of C\prev] {$\x$};
+				}
+				\node(G0) [rectangle, draw] at (0,-1.2) {$1$};
+				\node(G) [left =of G0] {$B[G]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0} {
+					\node(G\i) [rectangle, draw, right =of G\prev] {$\x$};
+				}
+				\node(T0) [rectangle, draw] at (0,-1.8) {$0$};
+				\node(T) [left =of T0] {$B[T]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1,0,1} {
+					\node(T\i) [rectangle, draw, right =of T\prev] {$\x$};
+				}
+				\node(T0) [rectangle, draw] at (0,-2.4) {$0$};
+				\node(T) [left =of T0] {$B[\alert{\{A,T\}}]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {\alert{1},\alert{1},\alert{1},\alert{1}} {
+					\node(T\i) [rectangle, draw, right =of T\prev] {$\x$};
+				}
+			\end{tikzpicture}
+		\end{column}
+	\end{columns}
+
 \end{frame}
 \end{document}

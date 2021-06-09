@@ -58,7 +58,7 @@
 	\end{block}
 	\vspace{-1em}
 	例 $T = \text{\only<1,8->{A}\only<2-7>{\colorbox{mLightBrown!20}{
-		\alert<7>{A}\alert<6>{G}\alert<5>{A}\alert<4>{T}\alert<3>{A}
+\alert<7>{A}\alert<6>{G}\alert<5>{A}\alert<4>{T}\alert<3>{A}
 }}\only<8-9>{\colorbox{mLightBrown!20}{
 GATA\alert<9>{C}
 }}\only<10->{GATA}\only<1-7,10->{C}\only<10-15>{\colorbox{mLightBrown!20}{
@@ -82,6 +82,13 @@ GATA\alert<9>{C}
 		\draw[dashed, ->] (init) -| node[midway, right, pos=0.80] {$\epsilon$} (s3);
 		\draw[dashed, ->] (init) -| node[midway, right, pos=0.80] {$\epsilon$} (s4);
 		\draw[dashed, ->] (init) -| node[midway, right, pos=0.80] {$\epsilon$} (s5);
+		\node<2,8,10>(init) [state, fill=mLightBrown!20] at (0,0) {$I$};
+		\node<2,8,10>(s0) [state, fill=mLightBrown!20, below right=of init] {$0$};
+		\node<2,8,10,11>(s1) [state, fill=mLightBrown!20, right=of s0] {$1$};
+		\node<2,3,8,10,12>(s2) [state, fill=mLightBrown!20, right=of s1] {$2$};
+		\node<2,4,8,10,11,13>(s3) [state, fill=mLightBrown!20, right=of s2] {$3$};
+		\node<2,3,5,8,10,12,14>(s4) [state, fill=mLightBrown!20, right=of s3] {$4$};
+		\node<2,6,8,10,15>(s5) [state, double, double distance=.8mm, fill=mLightBrown!20, right=of s4] {$5$};
 	\end{tikzpicture}
 	}
 
@@ -111,43 +118,208 @@ GATA\alert<9>{C}
 			\end{tikzpicture}
 		\end{column}
 		\begin{column}{.66\textwidth}
-
+			\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, myLabel/.style={minimum width={width("\& AAB[G]")}}, node distance=0cm]
 			\only<2>{
-				\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
-					\node(d0) [rectangle, draw] at (0,0) {$0$};
-					\node(d) [left =of d0] {$D$};
-					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+					\node(d0) [rectangle, draw] at (0,0) {$1$};
+					\node(d) [myLabel,left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1,1,1} {
 						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
 					}
-					\node(dp0) [rectangle, draw] at (0,-1.4) {$0$};
-					\node(dp) [left =of dp0] {$((D << 1 ) | 1)$};
-					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
-						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
-					}
-
-					\draw[->] (d1) to (dp1);
-
-					\node(d0) [rectangle, draw] at (3,0) {$0$};
-					\node(d) [left =of d0] {$D$};
-					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
+			}
+			\only<3>{
+					\node(d0) [rectangle, draw] at (3,0) {$1$};
+					\node(d) [myLabel,left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1,1,1} {
 						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
 					}
-
-					\draw[->] (dp2) [bend left]  to (d);
-
-					\node(chr0) [rectangle, draw] at (3,-.7) {$1$};
-					\node(chr) [left =of chr0] {$\& B[a]$};
-					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0} {
+					\node(chr0) [rectangle, draw] at (3,-.7) {$0$};
+					\node(chr) [myLabel,left =of chr0] {$\& B[A]$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0,1,0} {
 						\node(chr\i ) [rectangle, draw, right =of chr\prev ] {$\x$};
 					}
-
 					\node(dp0) [rectangle, draw] at (3,-1.4) {$0$};
-					\node(dp) [left =of dp0] {$D$};
-					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+					\node(dp) [myLabel,left =of dp0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0,1,0} {
 						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
 					}
-				\end{tikzpicture}
 			}
+			\only<4>{
+					\node(d0) [rectangle, draw] at (3,0) {$1$};
+					\node(d) [myLabel,left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1,0,0} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+					\node(chr0) [rectangle, draw] at (3,-.7) {$0$};
+					\node(chr) [myLabel,left =of chr0] {$\& B[T]$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1,0,1} {
+						\node(chr\i ) [rectangle, draw, right =of chr\prev ] {$\x$};
+					}
+					\node(dp0) [rectangle, draw] at (3,-1.4) {$0$};
+					\node(dp) [myLabel,left =of dp0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1,0,0} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+			}
+			\only<5>{
+					\node(d0) [rectangle, draw] at (3,0) {$0$};
+					\node(d) [myLabel,left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0,0,0} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+					\node(chr0) [rectangle, draw] at (3,-.7) {$0$};
+					\node(chr) [myLabel,left =of chr0] {$\& B[A]$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0,1,0} {
+						\node(chr\i ) [rectangle, draw, right =of chr\prev ] {$\x$};
+					}
+					\node(dp0) [rectangle, draw] at (3,-1.4) {$0$};
+					\node(dp) [myLabel,left =of dp0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0,0,0} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+			}
+			\only<6>{
+					\node(d0) [rectangle, draw] at (3,0) {$1$};
+					\node(d) [myLabel,left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+					\node(chr0) [rectangle, draw] at (3,-.7) {$1$};
+					\node(chr) [myLabel,left =of chr0] {$\& B[G]$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0} {
+						\node(chr\i ) [rectangle, draw, right =of chr\prev ] {$\x$};
+					}
+					\node(dp0) [rectangle, draw] at (3,-1.4) {$1$};
+					\node(dp) [myLabel,left =of dp0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+			}
+			\only<7>{
+					\node(d0) [rectangle, draw] at (3,0) {$0$};
+					\node(d) [myLabel,left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+			}
+
+			\only<8>{
+					\node(d0) [rectangle, draw] at (0,0) {$1$};
+					\node(d) [myLabel,left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1,1,1} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+			}
+			\only<9>{
+					\node(d0) [rectangle, draw] at (3,0) {$1$};
+					\node(d) [myLabel,left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1,1,1} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+					\node(chr0) [rectangle, draw] at (3,-.7) {$0$};
+					\node(chr) [myLabel,left =of chr0] {$\& B[C]$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0} {
+						\node(chr\i ) [rectangle, draw, right =of chr\prev ] {$\x$};
+					}
+					\node(dp0) [rectangle, draw] at (3,-1.4) {$0$};
+					\node(dp) [myLabel,left =of dp0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+			}
+
+			\only<10>{
+					\node(d0) [rectangle, draw] at (0,0) {$1$};
+					\node(d) [myLabel,left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1,1,1} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+			}
+			\only<11>{
+					\node(d0) [rectangle, draw] at (3,0) {$1$};
+					\node(d) [myLabel,left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1,1,1} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+					\node(chr0) [rectangle, draw] at (3,-.7) {$0$};
+					\node(chr) [myLabel,left =of chr0] {$\& B[T]$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1,0,1} {
+						\node(chr\i ) [rectangle, draw, right =of chr\prev ] {$\x$};
+					}
+					\node(dp0) [rectangle, draw] at (3,-1.4) {$0$};
+					\node(dp) [myLabel,left =of dp0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1,0,1} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+			}
+			\only<12>{
+					\node(d0) [rectangle, draw] at (3,0) {$0$};
+					\node(d) [myLabel,left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0,1,0} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+					\node(chr0) [rectangle, draw] at (3,-.7) {$0$};
+					\node(chr) [myLabel,left =of chr0] {$\& B[A]$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0,1,0} {
+						\node(chr\i ) [rectangle, draw, right =of chr\prev ] {$\x$};
+					}
+					\node(dp0) [rectangle, draw] at (3,-1.4) {$0$};
+					\node(dp) [myLabel,left =of dp0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0,1,0} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+			}
+			\only<13>{
+					\node(d0) [rectangle, draw] at (3,0) {$1$};
+					\node(d) [myLabel,left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1,0,0} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+					\node(chr0) [rectangle, draw] at (3,-.7) {$0$};
+					\node(chr) [myLabel,left =of chr0] {$\& B[T]$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1,0,1} {
+						\node(chr\i ) [rectangle, draw, right =of chr\prev ] {$\x$};
+					}
+					\node(dp0) [rectangle, draw] at (3,-1.4) {$0$};
+					\node(dp) [myLabel,left =of dp0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1,0,0} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+			}
+			\only<14>{
+					\node(d0) [rectangle, draw] at (3,0) {$0$};
+					\node(d) [myLabel,left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0,0,0} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+					\node(chr0) [rectangle, draw] at (3,-.7) {$0$};
+					\node(chr) [myLabel,left =of chr0] {$\& B[A]$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0,1,0} {
+						\node(chr\i ) [rectangle, draw, right =of chr\prev ] {$\x$};
+					}
+					\node(dp0) [rectangle, draw] at (3,-1.4) {$0$};
+					\node(dp) [myLabel,left =of dp0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0,0,0} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+			}
+			\only<15>{
+					\node(d0) [rectangle, draw] at (3,0) {$1$};
+					\node(d) [myLabel,left =of d0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0} {
+						\node(d\i ) [rectangle, draw, right =of d\prev ] {$\x$};
+					}
+					\node(chr0) [rectangle, draw] at (3,-.7) {$1$};
+					\node(chr) [myLabel,left =of chr0] {$\& B[G]$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0} {
+						\node(chr\i ) [rectangle, draw, right =of chr\prev ] {$\x$};
+					}
+					\node(dp0) [rectangle, draw] at (3,-1.4) {$1$};
+					\node(dp) [myLabel,left =of dp0] {$D$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0} {
+						\node(dp\i ) [rectangle, draw, right =of dp\prev ] {$\x$};
+					}
+			}
+		\end{tikzpicture}
 
 		\end{column}
 	\end{columns}

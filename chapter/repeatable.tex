@@ -1,0 +1,77 @@
+%! TEX root = ../main.tex
+\documentclass[dvipdfmx,12pt,beamer]{standalone}
+\ifstandalone
+	\input{../preambles.tex}
+\fi	
+
+\begin{document}
+\begin{frame}{文字の繰り返し}
+	\begin{block}{基本アイデア}
+		繰り返しに対応するビットマスクを利用する
+	\end{block}
+
+	$D \leftarrow ((D << 1)|1)\& B[T_i])|(D\& S[T_i])$
+
+	例 $P = \text{AT*AT}$
+
+	\begin{columns}
+		\begin{column}{.49\textwidth}
+			\begin{itemize}
+				\item $\ShiftAnd$アルゴリズム
+			\end{itemize}
+			\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
+				\node(A0) [rectangle, draw] at (0,0) {$0$};
+				\node(A) [left =of A0] {$S[A]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0} {
+					\node(A\i) [rectangle, draw, right =of A\prev] {$\x$};
+				}
+				\node(C0) [rectangle, draw] at (0,-.6) {$0$};
+				\node(C) [left =of C0] {$S[C]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0} {
+					\node(C\i) [rectangle, draw, right =of C\prev] {$\x$};
+				}
+				\node(G0) [rectangle, draw] at (0,-1.2) {$0$};
+				\node(G) [left =of G0] {$S[G]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0} {
+					\node(G\i) [rectangle, draw, right =of G\prev] {$\x$};
+				}
+				\node(T0) [rectangle, draw] at (0,-1.8) {$1$};
+				\node(T) [left =of T0] {$S[T]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,\alert{1},0} {
+					\node(T\i) [rectangle, draw, right =of T\prev] {$\x$};
+				}
+			\end{tikzpicture}
+
+		\end{column}
+		\begin{column}{.49\textwidth}
+			\begin{itemize}
+				\item $\BNDM$アルゴリズム
+			\end{itemize}
+			\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
+				\node(A0) [rectangle, draw] at (0,0) {$0$};
+				\node(A) [left =of A0] {$S[A]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0} {
+					\node(A\i) [rectangle, draw, right =of A\prev] {$\x$};
+				}
+				\node(C0) [rectangle, draw] at (0,-.6) {$1$};
+				\node(C) [left =of C0] {$S[C]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0} {
+					\node(C\i) [rectangle, draw, right =of C\prev] {$\x$};
+				}
+				\node(G0) [rectangle, draw] at (0,-1.2) {$1$};
+				\node(G) [left =of G0] {$S[G]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0} {
+					\node(G\i) [rectangle, draw, right =of G\prev] {$\x$};
+				}
+				\node(T0) [rectangle, draw] at (0,-1.8) {$0$};
+				\node(T) [left =of T0] {$S[T]$};
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {\alert{1},0,0} {
+					\node(T\i) [rectangle, draw, right =of T\prev] {$\x$};
+				}
+			\end{tikzpicture}
+
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\end{document}

@@ -24,14 +24,14 @@
 	\begin{columns}
 		\begin{column}{.25\textwidth}
 			\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
-				\node(chr0) [rectangle, draw] at (0,0) {$0$};
+				\node(chr0) [rectangle, draw] at (0,0) {$1$};
 				\node(chr) [left =of chr0] {$B[a]$};
-				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1} {
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,0} {
 					\node(chr\i) [rectangle, draw, right =of chr\prev] {$\x$};
 				}
-				\node(chr0a) [rectangle, draw] at (0,-.7) {$1$};
+				\node(chr0a) [rectangle, draw] at (0,-.7) {$0$};
 				\node(chra) [left =of chr0a] {$B[b]$};
-				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0} {
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1} {
 					\node(chr\i a) [rectangle, draw, right =of chr\prev a] {$\x$};
 				}
 				\node(chr0b) [rectangle, draw] at (0,-1.4) {$0$};
