@@ -1,0 +1,34 @@
+%! TEX root = ../main.tex
+\documentclass[dvipdfmx,12pt,beamer]{standalone}
+\ifstandalone
+	\input{../preambles.tex}
+\fi	
+
+\begin{document}
+\begin{frame}[fragile]{ファイル分割で文書作成}
+	\LaTeX で規模の大きい文書を作成するときに困ること
+	\begin{itemize}
+		\item 単一ファイルで作業すると、行数が膨大になり、管理が難しくなる。
+		\item gitで扱いずらい（マージしづらくなる）。
+		\item \textwidth input コマンドで分割すると、分割したファイルのみでのコンパイルができない。
+	\end{itemize}
+
+	\begin{block}{standalone}
+		分割したファイルを独立にコンパイルできるドキュメントクラス。
+		また、パッケージとしても提供されており、メインファイルでサブファイルに対する様々な操作をサポートしている。
+	\end{block}
+	\begin{block}{import}
+		分割したファイルを読み込むことができる\textbackslash importコマンドを提供しているパッケージ。
+
+		このとき、プリアンブルとdocument環境の宣言を削除して読み込む。
+	\end{block}
+\end{frame}
+
+\begin{frame}{使用例}
+	今回のスライドのレポジトリ
+
+	\url{ }
+\end{frame}
+
+\end{document}
+

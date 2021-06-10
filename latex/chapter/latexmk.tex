@@ -1,0 +1,39 @@
+
+%! TEX root = ../main.tex
+\documentclass[dvipdfmx,12pt,beamer]{standalone}
+\ifstandalone
+	\input{../preambles.tex}
+\fi	
+
+\begin{document}
+\begin{frame}[fragile]{コンパイル自動化ツール　Latexmk}
+	\LaTeX のコンパイル時に困ること
+	\begin{itemize}
+		\item 処理系によっては直接pdfファイルを生成できない（dviファイルを作成する必要がある）。
+		\item 参照解決のために何回もコンパイルする必要がある。
+		\item Bib\TeX などのコンパイルの順序などに気を付けなければならない。
+	\end{itemize}
+
+	\begin{block}{Latexmk}
+		コンパイル回数や、Bib\TeX などのコンパイルを自動で行うビルドツール。
+		\begin{lstlisting}
+latexmk [option ..] [file ..]
+\end{lstlisting}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Latexmk 設定方法}
+	ホームディレクトリに\fbox{.latexmkrc} を作成し、設定を記述することで、その設定を利用できる。
+\begin{lstlisting}[frame=single, caption=.latexmkrc 設定例, basicstyle={\ttfamily\tiny}]
+$clean_ext='bbl nav out snm aux sta synctex'; # -c オプションを入れた場合に削除する中間ファイル
+$latex='platex -kanji=utf-8 -synctex=1 %S'; # latexの処理系の設定
+$bibtex='pbibtex'; # bibtexの設定
+$pdf_mode=3; # use dvipdf
+$dvipdf='dvipdfmx %O -o %D %S'; # dviからpdfへの変換に使う処理系の設定
+$max_repeat=5; # コンパイルを行う回数
+$out_dir='build'; # 出力するディレクトリ
+$pdf_previewer="open -ga /Applications/Skim.app"; # 作成したpdfファイルのビューアの設定
+\end{lstlisting}
+
+\end{frame}
+\end{document}

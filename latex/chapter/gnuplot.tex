@@ -1,0 +1,81 @@
+%! TEX root = ../main.tex
+\documentclass[dvipdfmx,12pt,beamer]{standalone}
+\ifstandalone
+	\input{../preambles.tex}
+\fi	
+
+\begin{document}
+\begin{frame}[fragile]{\LaTeX でグラフの描画}
+	グラフの挿入で困ること
+	\begin{itemize}
+		\item データの変更があった場合に、グラフを作成し直す必要がある。
+		\item グラフでのフォントと、文書のフォントが合わなくなる。
+	\end{itemize}
+
+	\begin{block}{pgfplots}
+		\LaTeX のパッケージの一つ。PGFという描画エンジンを用いており、座標空間を描画できるaxis環境を提供している。
+	\end{block}
+	\begin{columns}
+		\begin{column}{.45\textwidth}
+			\begin{tikzpicture}[scale=.5]
+				\begin{axis}[axis lines=center, xlabel=$x$, ylabel=$y$, legend pos=outer north east, ymax=2, ymin=-2]
+					\addplot[thick, red, samples=100,domain=-2:2]{x^3};
+					\addlegendentry{$y = x^3$}
+					\addplot[thick, samples=100,domain=-2:2]{x^-1};
+					\addlegendentry{$y = x^{-1}$}
+				\end{axis}
+			\end{tikzpicture}
+		\end{column}
+		\begin{column}{.54\textwidth}
+			\begin{lstlisting}[language=tex]
+\begin{tikzpicture}[scale=.6]
+  \begin{axis}[axis lines=center, xlabel=$x$, ylabel=$y$, legend pos=outer north east, ymax=2, ymin=-2]
+    \addplot[thick, samples=100,domain=-2:2]{x^3};
+    \addlegendentry{$y = x^3$}
+    \addplot[thick, samples=100,domain=-2:2]{x^-1};
+    \addlegendentry{$y = x^2$}
+  \end{axis}
+\end{tikzpicture}
+\end{lstlisting}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{csvファイルからのインポート}
+
+	pgfplotsでは、csvファイルからグラフで描画したい列を取得することができる。
+
+	\begin{columns}
+		\begin{column}{.45\textwidth}
+			\begin{tikzpicture}[scale=.5]
+				\begin{axis}[date coordinates in=x, 
+					xticklabel=\month-\day, name=g-covid,
+					axis lines=center, xlabel=日付, ylabel=陽性数]
+					\addplot[thick, red] %
+						table [x={日付}, y={日陽性数}, col sep=comma]%
+						{covid19_data_sapporo_2020_03.csv};
+				\end{axis}
+				\node [below =of g-covid] {{\tiny 例 札幌市の2020年3月のCOVID19陽性数\footnotemark}};
+			\end{tikzpicture}
+			
+		\end{column}
+		\begin{column}{.54\textwidth}
+			\begin{lstlisting}[language=tex]
+\begin{tikzpicture}[scale=.5]
+  \begin{axis}[date coordinates in=x, 
+    xticklabel=\month-\day,
+    axis lines=center, xlabel=日付, ylabel=陽性数]
+    \addplot[thick, red] %
+      table [x={日付}, y={日陽性数}, col sep=comma]%
+      {covid19_data_sapporo_2020_03.csv};
+  \end{axis}
+  \node [below =of g-covid] {{\tiny 例 札幌市の2020年3月のCOVID19陽性数\footnotemark}};
+\end{tikzpicture}
+\end{lstlisting}
+		\end{column}
+	\end{columns}
+	\footnotetext[1]{\url{https://ckan.pf-sapporo.jp/dataset/covid_19_patients/resource/7dc6b374-ac73-4df4-b899-ea6c8cac3e32}}
+\end{frame}
+
+\end{document}
+
