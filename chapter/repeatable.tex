@@ -53,12 +53,12 @@
 				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0} {
 					\node(A\i) [rectangle, draw, right =of A\prev] {$\x$};
 				}
-				\node(C0) [rectangle, draw] at (0,-.6) {$1$};
+				\node(C0) [rectangle, draw] at (0,-.6) {$0$};
 				\node(C) [left =of C0] {$S[C]$};
 				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0} {
 					\node(C\i) [rectangle, draw, right =of C\prev] {$\x$};
 				}
-				\node(G0) [rectangle, draw] at (0,-1.2) {$1$};
+				\node(G0) [rectangle, draw] at (0,-1.2) {$0$};
 				\node(G) [left =of G0] {$S[G]$};
 				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0} {
 					\node(G\i) [rectangle, draw, right =of G\prev] {$\x$};
