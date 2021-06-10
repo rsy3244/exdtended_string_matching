@@ -114,9 +114,9 @@
 				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,1,0,0} {
 					\node(T\i) [rectangle, draw, right =of T\prev] {$\x$};
 				}
-				\node(T0) [rectangle, draw] at (0,-2.4) {$1$};
+				\node(T0) [rectangle, draw] at (0,-2.4) {$\alert{1}$};
 				\node(T) [left =of T0] {$B[\alert{\{A, T\}}]$};
-				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {\alert{1},\alert{1},\alert{1},\alert{0}} {
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {\alert{1},\alert{1},\alert{1},0} {
 					\node(T\i) [rectangle, draw, right =of T\prev] {$\x$};
 				}
 

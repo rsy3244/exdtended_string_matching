@@ -46,8 +46,8 @@
 
 		\begin{itemize}
 			\item $A$：オプション文字がある状態を$1$としたビットマスク
-			\item $I$：直前がオプション文字でなく、\\オプション文字がある状態を$1$としたビットマスク
-			\item $F$：直後がオプション文字でなく、\\オプション文字がある状態を$1$としたビットマスク
+			\item $I$：直後がオプション文字で、\\オプション文字でない状態を$1$としたビットマスク
+			\item $F$：直後がオプション文字でなく、\\オプション文字である状態を$1$としたビットマスク
 		\end{itemize}
 	\end{block}
 	\vspace{-1em}
@@ -63,7 +63,7 @@
 				}
 				\node(chr0) [rectangle, draw] at (0,-.7) {$0$};
 				\node(chr) [left =of chr0] {$I$};
-				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,1,0,0,1,0} {
+				\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,1,0,0,1} {
 					\node(chr\i) [rectangle, draw, right =of chr\prev] {$\x$};
 				}
 				\node(chr0a) [rectangle, draw] at (0,-1.4) {$0$};
@@ -78,7 +78,7 @@
 				\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, myLabel/.style={minimum width={width("WWWWW")}}, node distance=0cm]
 					\node(d0) [rectangle, draw] at (0,0) {$0$};
 					\node(d) [myLabel,left =of d0] {$D$};
-					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0,0,1,0} {
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0,0,0,1} {
 						\node(d\i) [rectangle, draw, right =of d\prev] {$\x$};
 					}
 					\node(is0) [rectangle, draw] at (0,-.7) {$0$};
@@ -88,7 +88,7 @@
 					}
 					\node(dp0) [rectangle, draw] at (0,-1.4) {$0$};
 					\node(dp) [myLabel,left =of dp0] {$Df$};
-					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,1,0,1,1,0} {
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,1,0,1,0,1} {
 						\node(dp\i) [rectangle, draw, right =of dp\prev] {$\x$};
 					}
 				\end{tikzpicture}
@@ -97,17 +97,17 @@
 				\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, node distance=0cm]
 					\node(d0) [rectangle, draw] at (0,0) {$0$};
 					\node(d) [left =of d0] {$Df$};
-					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,1,0,1,1,0} {
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,1,0,1,0,1} {
 						\node(d\i) [rectangle, draw, right =of d\prev] {$\x$};
 					}
 					\node(is0) [rectangle, draw] at (0,-.7) {$0$};
 					\node(is) [left =of is0] {$- I$};
-					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,1,0,0,1,0} {
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,1,0,0,1} {
 						\node(is\i) [rectangle, draw, right =of is\prev] {$\x$};
 					}
 					\node(dp0) [rectangle, draw] at (0,-1.4) {$0$};
 					\node(dp) [left =of dp0] {$Df - I$};
-					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0,1,0,0} {
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,1,1,0,0} {
 						\node(dp\i) [rectangle, draw, right =of dp\prev] {$\x$};
 					}
 				\end{tikzpicture}
@@ -116,17 +116,17 @@
 				\begin{tikzpicture}[state/.style={circle, draw, minimum size=.7cm}, myLabel/.style={minimum width={width("(F-(DW I))W W F")}},node distance=0cm]
 					\node(d0) [rectangle, draw] at (0,0) {$1$};
 					\node(d) [myLabel, left =of d0] {$\sim(Df - I)$};
-					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1,1,1,0,1,1} {
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1,1,0,0,1,1} {
 						\node(d\i) [rectangle, draw, right =of d\prev] {$\x$};
 					}
 					\node(is0) [rectangle, draw] at (0,-.7) {$0$};
 					\node(is) [left =of is0] {$\land Df$};
-					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,1,0,1,1,0} {
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,1,0,1,0,1} {
 						\node(is\i) [rectangle, draw, right =of is\prev] {$\x$};
 					}
 					\node(dp0) [rectangle, draw] at (0,-1.4) {$1$};
 					\node(dp) [left =of dp0] {\small $(\sim(Df-I))\land Df$};
-					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1,0,1,1,0,1} {
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1,0,0,1,1,0} {
 						\node(dp\i) [rectangle, draw, right =of dp\prev] {$\x$};
 					}
 				\end{tikzpicture}
@@ -139,13 +139,13 @@
 						\node(d\i) [rectangle, draw, right =of d\prev] {$\x$};
 					}
 					\node(is0) [rectangle, draw] at (0,-.7) {$0$};
-					\node(is) [left =of is0] {\footnotesize $(\sim(Df-I))\land Df$};
-					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,1,0,0,1,0} {
+					\node(is) [left =of is0] {\footnotesize $\& (\sim(Df-I))\land Df$};
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {1,1,0,0,1,1,0} {
 						\node(is\i) [rectangle, draw, right =of is\prev] {$\x$};
 					}
 					\node(dp0) [rectangle, draw] at (0,-1.4) {$0$};
 					\node(dp) [left =of dp0] {\footnotesize $A \& ((\sim (Df - I)) \land Df)$};
-					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,1,0,0,1,0} {
+					\foreach \x [count=\i from 1, remember=\i as \prev (initially 0)] in {0,0,0,0,1,1,0} {
 						\node(dp\i) [rectangle, draw, right =of dp\prev] {$\x$};
 					}
 				\end{tikzpicture}
