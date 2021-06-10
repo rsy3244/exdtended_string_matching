@@ -53,7 +53,7 @@
 					axis lines=center, xlabel=日付, ylabel=陽性数]
 					\addplot[thick, red] %
 						table [x={日付}, y={日陽性数}, col sep=comma]%
-						{covid19_data_sapporo_2020_03.csv};
+						{\IfStandalone{}{chapter/}covid19_data_sapporo_2020_03.csv};
 				\end{axis}
 				\node [below =of g-covid] {{\tiny 例 札幌市の2020年3月のCOVID19陽性数\footnotemark}};
 			\end{tikzpicture}
@@ -67,15 +67,47 @@
     axis lines=center, xlabel=日付, ylabel=陽性数]
     \addplot[thick, red] %
       table [x={日付}, y={日陽性数}, col sep=comma]%
-      {covid19_data_sapporo_2020_03.csv};
+      {\IfStandalone{}{chapter/}covid19_data_sapporo_2020_03.csv};
   \end{axis}
   \node [below =of g-covid] {{\tiny 例 札幌市の2020年3月のCOVID19陽性数\footnotemark}};
 \end{tikzpicture}
 \end{lstlisting}
 		\end{column}
 	\end{columns}
-	\footnotetext[1]{\url{https://ckan.pf-sapporo.jp/dataset/covid_19_patients/resource/7dc6b374-ac73-4df4-b899-ea6c8cac3e32}}
+	\footnotetext[1]{\tiny\url{https://ckan.pf-sapporo.jp/dataset/covid_19_patients/resource/7dc6b374-ac73-4df4-b899-ea6c8cac3e32}}
 \end{frame}
 
+\begin{frame}[fragile]{csvファイルからの表の作成}
+
+	グラフだけでなく、表も作成可能。
+
+	\begin{columns}
+		\begin{column}{.45\textwidth}
+			\captionsetup[table]{labelformat=empty}
+			\begin{table}
+				\footnotesize
+				\caption{\tiny 例 札幌市の2020年3月のCOVID19陽性数\footnotemark}
+				\pgfplotstabletypeset[col sep=comma,columns={日付,日陽性数,日患者数},
+					columns/日付/.style={string type},
+					skip rows between index={7}{31}
+					]{\IfStandalone{}{chapter/}covid19_data_sapporo_2020_03.csv}
+			\end{table}
+			
+		\end{column}
+		\begin{column}{.54\textwidth}
+			\begin{lstlisting}[language=tex]
+\begin{table}
+  \footnotesize
+  \caption{\tiny 例 札幌市の2020年3月のCOVID19陽性数\footnotemark}
+  \pgfplotstabletypeset[col sep=comma,columns={日付,日陽性数,日患者数},
+    columns/日付/.style={string type},
+    skip rows between index={7}{31}
+  ]{\IfStandalone{}{chapter/}covid19_data_sapporo_2020_03.csv}
+\end{table}
+\end{lstlisting}
+		\end{column}
+	\end{columns}
+	\footnotetext[1]{\tiny\url{https://ckan.pf-sapporo.jp/dataset/covid_19_patients/resource/7dc6b374-ac73-4df4-b899-ea6c8cac3e32}}
+\end{frame}
 \end{document}
 
